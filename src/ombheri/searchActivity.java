@@ -1,0 +1,248 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ombheri;
+
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import static ombheri.activity.regMain;
+
+/**
+ *
+ * @author Lanaya
+ */
+public class searchActivity extends javax.swing.JFrame {
+
+    /**
+     * Creates new form searchActivity
+     */
+    
+    JTable tableSearch;
+    static String interval="2018-10-20";
+    static int overAmt;
+    static int payAmt;
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+    LocalDate localDate = LocalDate.now();
+    String date=dtf.format(localDate);
+    
+    
+    public void tableRun(String sql) throws Exception{
+//        System.out.println(regMain);
+        
+        System.out.println(sql);
+        sqlConn sc=new sqlConn();
+        ResultSet rs = sc.stmt.executeQuery(sql);
+
+        // It creates and displays the table
+        tableSearch = new JTable(buildTableModel(rs));
+        
+        tableSearch.getColumnModel().getColumn(0).setPreferredWidth(20);
+        tableSearch.getColumnModel().getColumn(1).setPreferredWidth(50);
+        tableSearch.getColumnModel().getColumn(2).setPreferredWidth(70);
+        tableSearch.getColumnModel().getColumn(3).setPreferredWidth(70);
+        tableSearch.getColumnModel().getColumn(4).setPreferredWidth(15);
+        tableSearch.getColumnModel().getColumn(5).setPreferredWidth(15);
+        tableSearch.getColumnModel().getColumn(6).setPreferredWidth(250);
+        
+        tableSearch.setBounds(12,20, 900, 530);
+        tableSearch.setFont(new Font("Mono", Font.TRUETYPE_FONT, 12));
+        tableSearch.setRowHeight(30);
+        tableSearch.setRowSelectionAllowed(false);
+        tableSearch.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //        int modelRow = convertRowIndexToModel(row);
+        tableSearch.setAutoCreateRowSorter(true);
+
+        tableSearch.setShowGrid(true);
+        
+        
+//        JOptionPane.showMessageDialog(null, new JScrollPane(tableSearch));        
+       JScrollPane sp=new JScrollPane(tableSearch, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+       sp.setBounds(12, 20, 900, 530); //yo na rakhda error ako cha
+
+
+//
+//        JScrollPane sp=new JScrollPane(tableSearch);
+        this.add(sp);
+        
+//        this.add(tableSearch);
+//
+//        
+////        JOptionPane.showMessageDialog(null, new JScrollPane(tableSearch));
+        
+    }
+    
+    public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
+        overAmt=0;
+        payAmt=0;
+
+        ResultSetMetaData metaData = rs.getMetaData();
+
+        // names of columns
+        Vector<String> columnNames = new Vector<String>();
+        int columnCount = metaData.getColumnCount();
+
+            columnNames.add("RegNo");
+            columnNames.add("Date");
+            columnNames.add("Treatment");
+            columnNames.add("DoctorName");
+            columnNames.add("Price");
+            columnNames.add("Payment?");
+            columnNames.add("Remark");
+            
+     
+        // data of the table
+        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+        while (rs.next()) {
+            Vector<Object> vector = new Vector<Object>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                vector.add(rs.getObject(columnIndex));
+            }
+            overAmt+=rs.getInt(5);
+            if(rs.getString(6).equalsIgnoreCase("not done")){
+                payAmt+=rs.getInt(5);
+            }
+            
+            data.add(vector);
+        }
+//        System.out.println(overAmt+" over");
+//        System.out.println(payAmt+" payment");
+
+
+        return new DefaultTableModel(data, columnNames);
+
+    }
+    public void changeText(){
+        txtOver.setText(String.valueOf(overAmt));
+        System.out.println(payAmt);
+        txtPay.setText(String.valueOf(payAmt));
+
+    }
+    
+    
+    public void setT(String t){
+        this.setTitle(t);
+
+    }
+    
+    public searchActivity() {
+        initComponents();
+        try{
+//            tableRun();
+            
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel4 = new javax.swing.JLabel();
+        txtOver = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtPay = new javax.swing.JTextField();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1100, 670));
+        setResizable(false);
+
+        jLabel4.setText("Overall");
+
+        txtOver.setEditable(false);
+
+        jLabel10.setText("To be paid");
+
+        txtPay.setEditable(false);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(346, 346, 346)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtOver, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65)
+                .addComponent(jLabel10)
+                .addGap(27, 27, 27)
+                .addComponent(txtPay, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(452, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(625, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtPay, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtOver, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(searchActivity.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(searchActivity.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(searchActivity.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(searchActivity.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new searchActivity().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JTextField txtOver;
+    private javax.swing.JTextField txtPay;
+    // End of variables declaration//GEN-END:variables
+}
