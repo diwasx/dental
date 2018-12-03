@@ -25,7 +25,7 @@ public class treatment extends javax.swing.JFrame {
      */
     JTable tableTreat;
     
-    
+   
     public void tableRun() throws Exception{
         String sql="select * from treatment;";
         sqlConn sc=new sqlConn();

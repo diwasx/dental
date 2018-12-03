@@ -655,9 +655,7 @@ public class front extends javax.swing.JFrame {
         // TODO add your handling code here:
         searchActivity sa=new searchActivity();
         sa.setVisible(true);
-        String sql="SELECT *\n" +
-        "FROM activity\n" +
-        "WHERE DAY(date) = DAY(CURRENT_DATE())-1;";
+        String sql="select * from activity where date=curdate()-1;";
         sa.setT("Yesterday");
         try{
             sa.tableRun(sql);
@@ -671,9 +669,7 @@ public class front extends javax.swing.JFrame {
         // TODO add your handling code here:
         searchActivity sa=new searchActivity();
         sa.setVisible(true);
-        String sql="SELECT *\n" +
-        "FROM activity\n" +
-        "WHERE DAY(date) = DAY(CURRENT_DATE());";
+        String sql="select * from activity where date=curdate();";
         sa.setT("Today");
         try{
             sa.tableRun(sql);
