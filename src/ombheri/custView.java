@@ -30,7 +30,7 @@ public class custView extends javax.swing.JFrame {
     String c1;
     String ad1;
     static String regMain;
-    JFrame front1;
+    public JFrame front1;
     
     public void getData(String d,String r,String f,String l,String a,String c,String ad){
         d1=d;
