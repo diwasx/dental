@@ -52,11 +52,9 @@ public class table {
         JOptionPane.showMessageDialog(null, new JScrollPane(table));        
 
     }
-    
-    public static void searchN(String a,String b) throws Exception{
-    // The Connection is obtained
-    
-        String sql="select * from customer where firstn='"+a+"' and lastn='"+b+"';";
+        
+    public static void searchCust(String a) throws Exception{
+  	String sql = "SELECT * FROM customer WHERE CONCAT(firstn, '', lastn, '', contno, '', date) LIKE \"%" + a + "%\";";
         sqlConn sc=new sqlConn();
         ResultSet rs = sc.stmt.executeQuery(sql);
 
@@ -71,59 +69,11 @@ public class table {
         table.getColumnModel().getColumn(6).setPreferredWidth(180);      
 
         // Closes the Connection
-
         JOptionPane.showMessageDialog(null, new JScrollPane(table));
         
 
-    }
-    
-    public static void searchP(String a) throws Exception{
-    // The Connection is obtained
-    
-        String sql="select * from customer where contno="+a+";";
-        sqlConn sc=new sqlConn();
-        ResultSet rs = sc.stmt.executeQuery(sql);
-
-        // It creates and displays the table
-        JTable table = new JTable(buildTableModel(rs));
-        //        int modelRow = convertRowIndexToModel(row);
-        table.setAutoCreateRowSorter(true);
-        table.getColumnModel().getColumn(0).setPreferredWidth(180);
-        table.getColumnModel().getColumn(1).setPreferredWidth(100);
-        table.getColumnModel().getColumn(2).setPreferredWidth(150);
-        table.getColumnModel().getColumn(3).setPreferredWidth(130);
-        table.getColumnModel().getColumn(4).setPreferredWidth(60);
-        table.getColumnModel().getColumn(5).setPreferredWidth(200);
-        table.getColumnModel().getColumn(6).setPreferredWidth(180);
-        // Closes the Connection
-
-        JOptionPane.showMessageDialog(null, new JScrollPane(table));
-
-    }
-    public static void searchD(String a) throws Exception{
-    // The Connection is obtained
-    
-        String sql="select * from customer where date='"+a+"';";
-        sqlConn sc=new sqlConn();
-        ResultSet rs = sc.stmt.executeQuery(sql);
-
-        // It creates and displays the table
-        JTable table = new JTable(buildTableModel(rs));
-        //        int modelRow = convertRowIndexToModel(row);
-        table.setAutoCreateRowSorter(true);
-        table.getColumnModel().getColumn(0).setPreferredWidth(180);
-        table.getColumnModel().getColumn(1).setPreferredWidth(100);
-        table.getColumnModel().getColumn(2).setPreferredWidth(150);
-        table.getColumnModel().getColumn(3).setPreferredWidth(130);
-        table.getColumnModel().getColumn(4).setPreferredWidth(60);
-        table.getColumnModel().getColumn(5).setPreferredWidth(200);
-        table.getColumnModel().getColumn(6).setPreferredWidth(180);
-        // Closes the Connection
-
-        JOptionPane.showMessageDialog(null, new JScrollPane(table));
-
-    }
-    
+    }    
+   
     public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
 
         ResultSetMetaData metaData = rs.getMetaData();
@@ -154,7 +104,6 @@ public class table {
             }
             data.add(vector);
         }
-
         return new DefaultTableModel(data, columnNames);
 
     }
