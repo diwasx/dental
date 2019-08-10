@@ -5,7 +5,7 @@
  */
 package ombheri;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+// import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -255,7 +255,7 @@ public class custEdit extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 204, 102));
         jLabel8.setText("Edit Pannel");
-        jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(null));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
