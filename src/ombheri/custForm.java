@@ -454,15 +454,7 @@ public class custForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_firstnActionPerformed
 
-    public boolean isNumeric(String str) {
-	System.out.println(str);
-	try {  
-	  Double.parseDouble(str);  
-	  return true;
-	} catch(NumberFormatException e){  
-	  return false;  
-	}  
-     }
+
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         this.dispose();
@@ -470,6 +462,19 @@ public class custForm extends javax.swing.JFrame {
         f.setVisible(true);
     }//GEN-LAST:event_cancelActionPerformed
 
+    public boolean isNumeric(String str) {
+	try {  
+	  Double.parseDouble(str);  
+	  return true;
+	} catch(NumberFormatException e){  
+	  return false;  
+	}  
+     }
+    
+    public boolean isAlpha(String name) {
+	return name.matches("[a-zA-Z]+");
+    }
+    
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         // TODO add your handling code here:
 	
@@ -485,15 +490,15 @@ public class custForm extends javax.swing.JFrame {
 		contno.setBackground(Color.RED);
 	}
 	
-	if (firstn.getText().length() == 0 || firstn.getText().equals("First Name")){
+	if (firstn.getText().length() == 0 || firstn.getText().equals("First Name") || !this.isAlpha(firstn.getText())){
 		firstn.setBackground(Color.RED);
 		error = true;
 	}
-	if (lastn.getText().length() == 0 || lastn.getText().equals("Last Name")){
+	if (lastn.getText().length() == 0 || lastn.getText().equals("Last Name") || !this.isAlpha(lastn.getText())){
 		lastn.setBackground(Color.RED);
 		error = true;
 	}
-	if (age.getText().length() == 0 || age.getText().equals("Age")){
+	if (age.getText().length() == 0 || age.getText().equals("Age") || !this.isNumeric(age.getText())){
 		age.setBackground(Color.RED);
 		error = true;
 	}
